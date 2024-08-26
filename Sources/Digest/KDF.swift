@@ -56,7 +56,8 @@ public struct KDF {
     /// - Returns: A byte array which is the symmetric key
     public static func X963KDF(_ kind: MessageDigest.Kind, _ ikm: Bytes, _ size: Int, _ info: Bytes) -> Bytes {
         let md = MessageDigest(kind)
-        precondition(size >= 0 && size < md.digestLength * 0xffffffff)
+        let mulRes = UInt64(md.digestLength) * UInt64(UInt32.max)//md.digestLength * 0xffffffff
+        precondition(size >= 0 && size < mulRes)
         var T: Bytes = []
         var counter: Bytes = [0, 0, 0, 1]
         let n = size == 0 ? 0 : (size - 1) / md.digestLength + 1
