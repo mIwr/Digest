@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "Digest"
-  spec.version      = "1.7.1"
+  spec.version      = "1.8.1"
   spec.summary      = "SHA1, SHA2, SHA3, SHAKE, HMAC, HKDF, MGF1, random numbers in Swift"
   spec.author       = { "Leif Ibsen" => "https://github.com/leif-ibsen" }
   spec.homepage     = "https://github.com/leif-ibsen/Digest"
