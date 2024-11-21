@@ -18,9 +18,16 @@ final class Hex2BytesTest: XCTestCase {
     
     func test2() throws {
         var x = Bytes(repeating: 0, count: 100)
+        #if targetEnvironment(simulator) || targetEnvironment(macCatalyst) || os(macOS) || os(iOS) || os(watchOS) || os(tvOS) || os(visionOS)
+        //Avaliable only on Apple platforms
         guard SecRandomCopyBytes(kSecRandomDefault, x.count, &x) == errSecSuccess else {
             fatalError("random failed")
         }
+        #else
+        for i in 0...(x.count - 1) {
+            x[i] = UInt8.random(in: 0...UInt8.max)
+        }
+        #endif
         XCTAssertEqual(Base64.bytes2hex(x, false), Base64.bytes2hex(x, true).uppercased())
         XCTAssertEqual(Base64.bytes2hex(x, true), Base64.bytes2hex(x, false).lowercased())
         XCTAssertEqual(x, Base64.hex2bytes(Base64.bytes2hex(x, false)))
