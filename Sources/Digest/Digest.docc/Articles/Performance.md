@@ -15,6 +15,8 @@ The results are shown in the table below, units are megabytes per second.
 | SHA2_256       |      248 MB/Sec |
 | SHA2_384       |      339 MB/Sec |
 | SHA2_512       |      339 MB/Sec |
+| SHA2_512_224   |      339 MB/Sec |
+| SHA2_512_256   |      339 MB/Sec |
 | SHA3_224       |      191 MB/Sec |
 | SHA3_256       |      201 MB/Sec |
 | SHA3_384       |      168 MB/Sec |

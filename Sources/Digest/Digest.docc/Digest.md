@@ -22,7 +22,7 @@ To use Digest, in your project Package.swift file add a dependency like
 
 ```swift
 dependencies: [
-  package(url: "https://github.com/leif-ibsen/Digest", from: "1.12.0"),
+  package(url: "https://github.com/leif-ibsen/Digest", from: "1.13.0"),
 ]
 ```
 

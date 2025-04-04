@@ -43,6 +43,12 @@ public class MessageDigest {
         /// SHA2-512 Message Digest
         case SHA2_512
         
+        /// SHA2-512/224 Message Digest
+        case SHA2_512_224
+        
+        /// SHA2-512/256 Message Digest
+        case SHA2_512_256
+        
         /// SHA3-224 Message Digest
         case SHA3_224
         
@@ -54,6 +60,18 @@ public class MessageDigest {
         
         /// SHA3-512 Message Digest
         case SHA3_512
+    }
+
+    
+    enum Kind512 {
+        // SHA2-384 Message Digest
+        case SHA2_384
+        // SHA2-512 Message Digest
+        case SHA2_512
+        // SHA2-512/224 Message Digest
+        case SHA2_512_224
+        // SHA2-512/256 Message Digest
+        case SHA2_512_256
     }
 
     let impl: MDImplementation
@@ -113,7 +131,7 @@ public class MessageDigest {
             self.hl = Limbs(repeating: 0, count: 0)
             self.S = Bytes(repeating: 0, count: 0)
         case .SHA2_384:
-            self.impl = SHA2_512(true)
+            self.impl = SHA2_512(.SHA2_384)
             self.keccak = false
             self.digestLength = 48
             self.buffer = Bytes(repeating: 0, count: 128)
@@ -121,9 +139,25 @@ public class MessageDigest {
             self.hl = Limbs(repeating: 0, count: 8)
             self.S = Bytes(repeating: 0, count: 0)
         case .SHA2_512:
-            self.impl = SHA2_512(false)
+            self.impl = SHA2_512(.SHA2_512)
             self.keccak = false
             self.digestLength = 64
+            self.buffer = Bytes(repeating: 0, count: 128)
+            self.hw = Words(repeating: 0, count: 0)
+            self.hl = Limbs(repeating: 0, count: 8)
+            self.S = Bytes(repeating: 0, count: 0)
+        case .SHA2_512_224:
+            self.impl = SHA2_512(.SHA2_512_224)
+            self.keccak = false
+            self.digestLength = 28
+            self.buffer = Bytes(repeating: 0, count: 128)
+            self.hw = Words(repeating: 0, count: 0)
+            self.hl = Limbs(repeating: 0, count: 8)
+            self.S = Bytes(repeating: 0, count: 0)
+        case .SHA2_512_256:
+            self.impl = SHA2_512(.SHA2_512_256)
+            self.keccak = false
+            self.digestLength = 32
             self.buffer = Bytes(repeating: 0, count: 128)
             self.hw = Words(repeating: 0, count: 0)
             self.hl = Limbs(repeating: 0, count: 8)
@@ -242,9 +276,9 @@ public class MessageDigest {
                     break
                 }
             }
-        } else if self.digestLength > 32 {
-                
-            // SHA2_384 and SHA2_512
+        } else if self.hl.count == 8 {
+
+            // SHA2_384, SHA2_512, SHA2_512_224 and SHA2_512_256
                 
             for i in 0 ..< self.digestLength {
                 md[i] = Byte((self.hl[i >> 3] >> ((7 - (i & 0x7)) * 8)) & 0xff)
